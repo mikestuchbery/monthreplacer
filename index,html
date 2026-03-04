@@ -1,0 +1,244 @@
+<custom name="opencounter" type="tracking"/>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aktualizace předplatného Bluelink</title>
+
+<style>
+body, table, td, p, a, ul, ol, li { font-family: Arial, sans-serif; color:#111; }
+p { font-size:13px; line-height:1.55; margin:0 0 12px 0; }
+ul, ol { padding-left:18px; margin:0 0 12px 0; font-size:13px; line-height:1.55; }
+li { margin-bottom:6px; }
+a { color:#002c5f; text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+.container { width:600px; }
+.content-cell { padding:22px; }
+.muted { color:#5b6674; }
+.h2 { font-size:18px; font-weight:bold; margin:18px 0 10px; color:#111; }
+.divider { height:1px; background:#e6e9ef; font-size:0; }
+.card { background:#ffffff; border:1px solid #e6e9ef; border-radius:10px; }
+.hero-wrap { padding:0 22px 10px 22px; }
+.hero-img { width:100%; max-width:556px; height:auto; display:block; margin:0 auto; border-radius:10px; }
+.step-badge {
+  width:34px; height:34px; border-radius:999px;
+  background:#002c5f; color:#fff;
+  font-size:14px; font-weight:bold;
+  text-align:center; line-height:34px;
+}
+.step-title { font-size:13px; font-weight:bold; margin:0 0 6px 0; }
+.btnrow img { display:block; }
+.shadow { box-shadow:0 6px 20px rgba(0,0,0,0.06); }
+
+@media only screen and (max-width:600px){
+  .container{width:92%!important;}
+  .content-cell{padding:16px!important;}
+  p,li{font-size:12px!important;line-height:1.45!important;}
+  .hero-wrap{padding:0 16px 10px 16px!important;}
+  .hero-img{border-radius:8px!important;}
+  .btnrow td{display:inline-block!important;width:auto!important;padding-bottom:0!important;}
+  .btnrow img{margin:0!important;}
+}
+</style>
+</head>
+
+<body style="margin:0;padding:0;background:#f6f3f2;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td align="center" style="padding:18px 0;">
+
+<table class="container card shadow" width="600" cellpadding="0" cellspacing="0" border="0"
+       style="background:#fff;border-radius:10px;overflow:hidden;">
+
+<tr>
+<td style="text-align:center;font-size:10px;padding:10px 18px 0;">
+<a href="%%view_email_url%%" style="color:#7a7a7a;">Zobrazit v prohlížeči</a>
+</td>
+</tr>
+
+<tr>
+<td style="padding:14px 22px 10px;">
+<a href="https://www.hyundai.cz" target="_blank" rel="noopener">
+<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/e716c5c2-5414-49c3-a997-85a48cee9e51.png"
+     alt="Logo Hyundai"
+     style="max-width:180px;height:auto;display:block;">
+</a>
+</td>
+</tr>
+
+<tr>
+<td class="hero-wrap">
+<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/48e990e5-6dc6-4290-87f8-807b54d4ba35.png"
+     alt="Bluelink Store v aplikaci myHyundai"
+     class="hero-img">
+</td>
+</tr>
+
+<tr>
+<td class="content-cell">
+
+<p>Vážený zákazníku,</p>
+<p>Doufáme, že si užíváte výhod, které Bluelink přináší při každé jízdě.</p>
+<p>Vaše aktuální předplatné vyprší v březnu.</p>
+
+<p>
+Chcete-li i po březnu nadále využívat služby Bluelink, vyberte si předplatné
+<strong>PLUS</strong> nebo <strong>PRO</strong> v
+<strong>Bluelink Store</strong>, dostupném prostřednictvím aplikace <strong>myHyundai</strong>.
+<br><br>
+Nové předplatné můžete zakoupit až <strong>90 dní před vypršením</strong>.
+</p>
+
+<div class="divider" style="margin:16px 0;"></div>
+
+<div class="h2">Co se stane, pokud si nevyberete předplatné?</div>
+<p>Pokud nebude vybráno nové předplatné, služba se automaticky vrátí na
+<strong>Bluelink LITE</strong>.</p>
+
+<p>Ztratíte přístup k následujícím funkcím:</p>
+<ul>
+<li>Connected Routing – rychlejší a efektivnější plánování trasy.</li>
+<li>Remote Services – uzamčení nebo odemčení vozidla pomocí telefonu.</li>
+<li>Live Services – dopravní a meteorologické informace v reálném čase.</li>
+<li>Music Streaming* – poslech hudby bez připojení telefonu.</li>
+</ul>
+
+<div class="divider" style="margin:16px 0;"></div>
+
+<div class="h2">Zůstaňte připojeni ve třech jednoduchých krocích</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+<tr>
+<td class="card" style="padding:12px;">
+<table width="100%">
+<tr>
+<td width="42" valign="top"><div class="step-badge">1</div></td>
+<td>
+<p class="step-title">Aktualizujte aplikaci myHyundai</p>
+<p class="muted">Ujistěte se, že používáte nejnovější verzi aplikace <strong>myHyundai</strong>.</p>
+
+<table class="btnrow" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td style="padding-right:10px;">
+<a href="https://apps.apple.com/cz/app/myhyundai/id6741947307" target="_blank" rel="noopener">
+<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/005879fa-5bee-4d95-8fa3-2a8f93b00299.png"
+     alt="App Store" width="135" height="40"
+     style="width:135px;height:40px;display:block;">
+</a>
+</td>
+<td>
+<a href="https://play.google.com/store/apps/details?id=com.hyundai.oneapp.eu" target="_blank" rel="noopener">
+<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/c32da4e4-cfcc-417c-89c1-b68a7d361a4b.png"
+     alt="Google Play" width="135" height="40"
+     style="width:135px;height:40px;display:block;">
+</a>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr><td style="height:10px;"></td></tr>
+
+<tr>
+<td class="card" style="padding:12px;">
+<table width="100%">
+<tr>
+<td width="42" valign="top"><div class="step-badge">2</div></td>
+<td>
+<p class="step-title">Otevřete Bluelink Store</p>
+<p class="muted">Otevřete aplikaci <strong>myHyundai</strong> a přejděte do <strong>Bluelink Store</strong>.</p>
+<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/849cac7e-3d9f-4bbf-849b-beea3eda777b.png"
+     alt="Bluelink Store v aplikaci myHyundai"
+     style="max-width:180px;height:auto;border-radius:8px;border:1px solid #eef1f6;">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr><td style="height:10px;"></td></tr>
+
+<tr>
+<td class="card" style="padding:12px;">
+<table width="100%">
+<tr>
+<td width="42" valign="top"><div class="step-badge">3</div></td>
+<td>
+<p class="step-title">Vyberte si předplatné</p>
+<p class="muted">
+Vyberte <strong>PRO</strong> nebo <strong>PLUS</strong>. Potvrzení obdržíte v aplikaci.
+Poplatky nebudou účtovány až do konce aktuálního období.
+Předplatné můžete kdykoli spravovat prostřednictvím nabídky ≡ v
+<strong>Bluelink Store</strong>.
+</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+
+<p style="margin-top:14px;">
+Pro nejlepší uživatelský zážitek doporučujeme udržovat navigační systém aktuální prostřednictvím
+<a href="https://update.hyundai.com/EU/E1/Main">Hyundai Update Portal</a>.
+</p>
+
+<p>
+Pokud již vaše předplatné vypršelo, informace o obnovení naleznete
+<a href="https://www.hyundai.com/eu/en/driving-hyundai/owning-a-hyundai/bluelink-connectivity/bluelink-store-renewal.html">zde</a>.
+</p>
+
+<div class="divider" style="margin:16px 0;"></div>
+
+<div class="h2">Jsme vám vždy k dispozici</div>
+<p>
+Více informací najdete na
+<a href="https://www.hyundai.com/cz/prodej/sluzby/pripojeni-bluelink.html">našich webových stránkách</a>
+nebo nás kontaktujte prostřednictvím
+<a href="https://connected-mobility.hyundai.com/ccs-contact-form">kontaktního formuláře Bluelink</a>.
+</p>
+
+<p>
+Děkujeme, že jste si vybrali <strong>Bluelink</strong> —
+pro chytřejší, bezpečnější a propojenější cestování.
+</p>
+<p><strong>Váš tým Bluelink</strong></p>
+
+<p class="muted" style="font-size:11px;">
+* Dostupnost Music Streaming závisí na systému Connected Car Navigation Cockpit (ccNC) vašeho vozidla.
+</p>
+
+</td>
+</tr>
+
+<tr><td style="background:#002c5f;height:3px;"></td></tr>
+
+</table>
+
+<table class="container" width="600" cellpadding="0" cellspacing="0">
+<tr>
+<td style="padding:18px;font-size:9px;color:#666;line-height:1.4;text-align:center;">
+© 2026 Hyundai Connected Mobility GmbH<br>
+Kaiserleipromenade 5, 63067 Offenbach, Německo<br>
+HRB 56445 – Daňové identifikační číslo DE364376196<br>
+Managing Director: Marcus Welz<br><br>
+<a href="https://www.hyundai.com/eu/en/bluelink-privacy-notice-en.html">Zásady ochrany osobních údajů</a> |
+<a href="https://www.hyundai.com/eu/en/bluelink-terms-of-use-en.html">Podmínky používání</a>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+</body>
+</html>
