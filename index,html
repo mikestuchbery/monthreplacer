@@ -1,244 +1,403 @@
-<custom name="opencounter" type="tracking"/>
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aktualizace předplatného Bluelink</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Month Replacer</title>
+<!-- v1772624213 -->
 <style>
-body, table, td, p, a, ul, ol, li { font-family: Arial, sans-serif; color:#111; }
-p { font-size:13px; line-height:1.55; margin:0 0 12px 0; }
-ul, ol { padding-left:18px; margin:0 0 12px 0; font-size:13px; line-height:1.55; }
-li { margin-bottom:6px; }
-a { color:#002c5f; text-decoration:none; }
-a:hover { text-decoration:underline; }
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
 
-.container { width:600px; }
-.content-cell { padding:22px; }
-.muted { color:#5b6674; }
-.h2 { font-size:18px; font-weight:bold; margin:18px 0 10px; color:#111; }
-.divider { height:1px; background:#e6e9ef; font-size:0; }
-.card { background:#ffffff; border:1px solid #e6e9ef; border-radius:10px; }
-.hero-wrap { padding:0 22px 10px 22px; }
-.hero-img { width:100%; max-width:556px; height:auto; display:block; margin:0 auto; border-radius:10px; }
-.step-badge {
-  width:34px; height:34px; border-radius:999px;
-  background:#002c5f; color:#fff;
-  font-size:14px; font-weight:bold;
-  text-align:center; line-height:34px;
-}
-.step-title { font-size:13px; font-weight:bold; margin:0 0 6px 0; }
-.btnrow img { display:block; }
-.shadow { box-shadow:0 6px 20px rgba(0,0,0,0.06); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@media only screen and (max-width:600px){
-  .container{width:92%!important;}
-  .content-cell{padding:16px!important;}
-  p,li{font-size:12px!important;line-height:1.45!important;}
-  .hero-wrap{padding:0 16px 10px 16px!important;}
-  .hero-img{border-radius:8px!important;}
-  .btnrow td{display:inline-block!important;width:auto!important;padding-bottom:0!important;}
-  .btnrow img{margin:0!important;}
-}
+  :root {
+    --bg: #0e0f13; --surface: #16181f; --border: #2a2d38;
+    --accent: #f0c060; --accent2: #60c0f0; --text: #e8eaf0;
+    --muted: #6b7080; --success: #60f0a0; --error: #f06060;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; padding: 40px 20px 80px;
+  }
+
+  header { width: 100%; max-width: 820px; margin-bottom: 32px; display: flex; align-items: baseline; gap: 14px; }
+  header h1 { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  header span { font-size: 0.8rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  .step-label { width: 100%; max-width: 820px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin: 20px 0 8px; }
+
+  .card { width: 100%; max-width: 820px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+  .card-header { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #1c1f28; }
+  .card-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+
+  textarea { width: 100%; padding: 16px 18px; background: transparent; border: none; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 1.6; resize: vertical; min-height: 180px; outline: none; }
+  textarea::placeholder { color: var(--muted); }
+  textarea[readonly] { color: #a0e8c0; }
+
+  button { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .btn-outline { background: transparent; color: var(--accent2); border: 1px solid var(--accent2); }
+  .btn-outline:hover { background: rgba(96,192,240,0.1); }
+  .btn-primary { background: var(--accent); color: #0e0f13; }
+  .btn-primary:hover { background: #f8d080; }
+
+  .month-picker { width: 100%; max-width: 820px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+  .picker-header { padding: 12px 18px; background: #1c1f28; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .picker-found { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .picker-found strong { font-size: 1.1rem; color: var(--accent); }
+  .picker-found .plang { color: var(--accent2); }
+  .picker-found .pcount { color: var(--muted); font-size: 0.63rem; }
+
+  .lang-sel { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 4px 26px 4px 8px; border-radius: 4px; cursor: pointer; outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7080' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
+  .lang-sel:focus { border-color: var(--accent); }
+  .lang-sel option { background: #1c1f28; }
+
+  .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+  .month-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; padding: 11px 6px; background: var(--surface); color: var(--text); border: none; cursor: pointer; text-align: center; transition: background 0.1s, color 0.1s; }
+  .month-btn:hover { background: #1e2130; color: var(--accent); }
+  .month-btn.selected { background: var(--accent); color: #0e0f13; font-weight: 700; }
+  .month-btn .en { font-size: 0.58rem; opacity: 0.45; font-weight: 400; }
+  .month-btn.selected .en { opacity: 0.65; }
+
+  .fire-wrap { width: 100%; max-width: 820px; margin: 6px 0 20px; }
+  .btn-fire { width: 100%; padding: 14px; font-size: 0.85rem; letter-spacing: 0.1em; border-radius: 6px; background: var(--accent); color: #0e0f13; }
+  .btn-fire:hover { background: #f8d080; }
+
+  .verify-ok { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; padding: 8px 18px; color: var(--success); background: rgba(96,240,160,0.07); border-bottom: 1px solid var(--border); }
+  .verify-fail { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; padding: 8px 18px; color: var(--error); background: rgba(240,96,96,0.07); border-bottom: 1px solid var(--border); }
+
+  .copy-success { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--success); opacity: 0; transition: opacity 0.3s; }
+  .copy-success.show { opacity: 1; }
+
+  .none-found { width: 100%; max-width: 820px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--error); padding: 10px 0; }
 </style>
 </head>
+<body>
 
-<body style="margin:0;padding:0;background:#f6f3f2;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-<td align="center" style="padding:18px 0;">
+<header>
+  <h1>Month Replacer</h1>
+  <span>// HTML email utility</span>
+</header>
 
-<table class="container card shadow" width="600" cellpadding="0" cellspacing="0" border="0"
-       style="background:#fff;border-radius:10px;overflow:hidden;">
+<div class="step-label">1 — Paste HTML</div>
+<div class="card">
+  <div class="card-header">
+    <span class="card-label">Input HTML</span>
+    <button class="btn-outline" style="font-size:0.65rem;padding:5px 12px;" onclick="analyse()">⟳ Scan</button>
+  </div>
+  <textarea id="input" placeholder="Paste your HTML here — months detected automatically…" oninput="analyse()" onpaste="setTimeout(analyse,50)"></textarea>
+</div>
 
-<tr>
-<td style="text-align:center;font-size:10px;padding:10px 18px 0;">
-<a href="%%view_email_url%%" style="color:#7a7a7a;">Zobrazit v prohlížeči</a>
-</td>
-</tr>
+<div id="step2" style="display:none;">
+  <div class="step-label">2 — Months found — select replacement for each</div>
+  <div id="pickers"></div>
+  <div class="fire-wrap">
+    <button class="btn-fire" onclick="doReplace()">⚡ Replace All &amp; Generate Output</button>
+  </div>
+</div>
 
-<tr>
-<td style="padding:14px 22px 10px;">
-<a href="https://www.hyundai.cz" target="_blank" rel="noopener">
-<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/e716c5c2-5414-49c3-a997-85a48cee9e51.png"
-     alt="Logo Hyundai"
-     style="max-width:180px;height:auto;display:block;">
-</a>
-</td>
-</tr>
+<div id="no-detection" class="none-found" style="display:none;">No months detected in pasted HTML.</div>
 
-<tr>
-<td class="hero-wrap">
-<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/48e990e5-6dc6-4290-87f8-807b54d4ba35.png"
-     alt="Bluelink Store v aplikaci myHyundai"
-     class="hero-img">
-</td>
-</tr>
+<div id="step3" style="display:none;">
+  <div class="step-label">3 — Output</div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-label">Updated HTML</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="copy-success" id="copy-ok">✓ Copied</span>
+        <button class="btn-outline" onclick="copyOutput()">Copy</button>
+      </div>
+    </div>
+    <div id="verify-msg" style="display:none;"></div>
+    <textarea id="output" readonly></textarea>
+  </div>
+</div>
 
-<tr>
-<td class="content-cell">
+<script>
+const MONTHS = {
+  en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  de: ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
+  es: ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],
+  fr: ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"],
+  it: ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"],
+  nl: ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"],
+  pt: ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],
+  pl: ["styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"],
+  pl_gen: ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"],
+  pl_loc: ["styczniu","lutym","marcu","kwietniu","maju","czerwcu","lipcu","sierpniu","wrześniu","październiku","listopadzie","grudniu"],
+  sv: ["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],
+  da: ["januar","februar","marts","april","maj","juni","juli","august","september","oktober","november","december"],
+  no: ["januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"],
+  fi: ["tammikuu","helmikuu","maaliskuu","huhtikuu","toukokuu","kesäkuu","heinäkuu","elokuu","syyskuu","lokakuu","marraskuu","joulukuu"],
+  cs: ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"],
+  cs_gen: ["ledna","února","března","dubna","května","června","července","srpna","září","října","listopadu","prosince"],
+  cs_loc: ["lednu","únoru","březnu","dubnu","květnu","červnu","červenci","srpnu","září","říjnu","listopadu","prosinci"],
+  sk: ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"],
+  sk_gen: ["januára","februára","marca","apríla","mája","júna","júla","augusta","septembra","októbra","novembra","decembra"],
+  sk_loc: ["januári","februári","marci","apríli","máji","júni","júli","auguste","septembri","októbri","novembri","decembri"],
+  hu: ["január","február","március","április","május","június","július","augusztus","szeptember","október","november","december"],
+  ro: ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"],
+  hr: ["siječanj","veljača","ožujak","travanj","svibanj","lipanj","srpanj","kolovoz","rujan","listopad","studeni","prosinac"],
+  hr_gen: ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","srpnja","kolovoza","rujna","listopada","studenog","prosinca"],
+  hr_loc: ["siječnju","veljači","ožujku","travnju","svibnju","lipnju","srpnju","kolovozu","rujnu","listopadu","studenom","prosincu"],
+  sr: ["januar","februar","mart","april","maj","jun","jul","avgust","septembar","oktobar","novembar","decembar"],
+  bg: ["януари","февруари","март","април","май","юни","юли","август","септември","октомври","ноември","декември"],
+  el: ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"],
+  tr: ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"],
+  ru: ["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"],
+  uk: ["січень","лютий","березень","квітень","травень","червень","липень","серпень","вересень","жовтень","листопад","грудень"],
+  lt: ["sausis","vasaris","kovas","balandis","gegužė","birželis","liepa","rugpjūtis","rugsėjis","spalis","lapkritis","gruodis"],
+  lv: ["janvāris","februāris","marts","aprīlis","maijs","jūnijs","jūlijs","augusts","septembris","oktobris","novembris","decembris"],
+  et: ["jaanuar","veebruar","märts","aprill","mai","juuni","juuli","august","september","oktoober","november","detsember"],
+  et_gen: ["jaanuari","veebruari","märtsi","aprilli","mai","juuni","juuli","augusti","septembri","oktoobri","novembri","detsembri"],
+  et_ine: ["jaanuaris","veebruaris","märtsis","aprillis","mais","juunis","juulis","augustis","septembris","oktoobris","novembris","detsembris"],
+  sl: ["januar","februar","marec","april","maj","junij","julij","avgust","september","oktober","november","december"],
+  sl_gen: ["januarja","februarja","marca","aprila","maja","junija","julija","avgusta","septembra","oktobra","novembra","decembra"],
+  ca: ["gener","febrer","març","abril","maig","juny","juliol","agost","setembre","octubre","novembre","desembre"],
+  sq: ["janar","shkurt","mars","prill","maj","qershor","korrik","gusht","shtator","tetor","nëntor","dhjetor"],
+  bs: ["januar","februar","mart","april","maj","juni","juli","august","septembar","oktobar","novembar","decembar"],
+  mk: ["јануари","февруари","март","април","мај","јуни","јули","август","септември","октомври","ноември","декември"],
+  is: ["janúar","febrúar","mars","apríl","maí","júní","júlí","ágúst","september","október","nóvember","desember"],
+  mt: ["Jannar","Frar","Marzu","April","Mejju","Ġunju","Lulju","Awwissu","Settembru","Ottubru","Novembru","Diċembru"],
+  ga: ["Eanáir","Feabhra","Márta","Aibreán","Bealtaine","Meitheamh","Iúil","Lúnasa","Meán Fómhair","Deireadh Fómhair","Samhain","Nollaig"],
+  cy: ["Ionawr","Chwefror","Mawrth","Ebrill","Mai","Mehefin","Gorffennaf","Awst","Medi","Hydref","Tachwedd","Rhagfyr"],
+  lb: ["Januar","Februar","Mäerz","Abrëll","Mee","Juni","Juli","August","September","Oktober","November","Dezember"],
+};
 
-<p>Vážený zákazníku,</p>
-<p>Doufáme, že si užíváte výhod, které Bluelink přináší při každé jízdě.</p>
-<p>Vaše aktuální předplatné vyprší v březnu.</p>
+const LANG_CANONICAL = { hr_gen: 'hr', hr_loc: 'hr', cs_gen: 'cs', cs_loc: 'cs', sk_gen: 'sk', sk_loc: 'sk', sl_gen: 'sl', pl_gen: 'pl', pl_loc: 'pl', et_gen: 'et', et_ine: 'et' };
 
-<p>
-Chcete-li i po březnu nadále využívat služby Bluelink, vyberte si předplatné
-<strong>PLUS</strong> nebo <strong>PRO</strong> v
-<strong>Bluelink Store</strong>, dostupném prostřednictvím aplikace <strong>myHyundai</strong>.
-<br><br>
-Nové předplatné můžete zakoupit až <strong>90 dní před vypršením</strong>.
-</p>
+const LANG_NAMES = {
+  en:"English", de:"Deutsch", es:"Español", fr:"Français", it:"Italiano",
+  nl:"Nederlands", pt:"Português", pl:"Polski", sv:"Svenska", da:"Dansk",
+  no:"Norsk", fi:"Suomi", cs:"Čeština", sk:"Slovenčina", hu:"Magyar",
+  ro:"Română", hr:"Hrvatski", hr_gen:"Hrvatski", hr_loc:"Hrvatski", cs_gen:"Čeština", cs_loc:"Čeština", sk_gen:"Slovenčina", sk_loc:"Slovenčina", sl_gen:"Slovenščina", pl_gen:"Polski", pl_loc:"Polski", sr:"Srpski", bg:"Български",
+  el:"Ελληνικά", tr:"Türkçe", ru:"Русский", uk:"Українська", lt:"Lietuvių",
+  lv:"Latviešu", et:"Eesti", sl:"Slovenščina", ca:"Català",
+  sq:"Shqip", bs:"Bosanski", mk:"Македонски", is:"Íslenska",
+  mt:"Malti", ga:"Gaeilge", cy:"Cymraeg", lb:"Lëtzebuergesch"
+};
 
-<div class="divider" style="margin:16px 0;"></div>
+const LANG_OPTIONS = [
+  ['en','English'],['de','Deutsch'],['es','Español'],['fr','Français'],
+  ['it','Italiano'],['nl','Nederlands'],['pt','Português'],['pl','Polski'],
+  ['sv','Svenska'],['da','Dansk'],['no','Norsk'],['fi','Suomi'],
+  ['cs','Čeština'],['sk','Slovenčina'],['hu','Magyar'],['ro','Română'],
+  ['hr','Hrvatski'],['sr','Srpski'],['bg','Български'],['el','Ελληνικά'],
+  ['tr','Türkçe'],['ru','Русский'],['uk','Українська'],['lt','Lietuvių'],
+  ['lv','Latviešu'],['et','Eesti'],['sl','Slovenščina'],['ca','Català'],
+  ['sq','Shqip'],['bs','Bosanski'],['mk','Македонски'],['is','Íslenska'],
+  ['mt','Malti'],['ga','Gaeilge'],['cy','Cymraeg'],['lb','Lëtzebuergesch'],
+];
 
-<div class="h2">Co se stane, pokud si nevyberete předplatné?</div>
-<p>Pokud nebude vybráno nové předplatné, služba se automaticky vrátí na
-<strong>Bluelink LITE</strong>.</p>
+// Matches any letter character across all European scripts
+// Using explicit Unicode code point ranges to ensure consistent JS behaviour
+function isLetter(ch) {
+  if (!ch) return false;
+  const c = ch.charCodeAt(0);
+  return (
+    (c >= 0x41  && c <= 0x5A) || // A-Z
+    (c >= 0x61  && c <= 0x7A) || // a-z
+    (c >= 0xC0  && c <= 0xD6) || // À-Ö
+    (c >= 0xD8  && c <= 0xF6) || // Ø-ö
+    (c >= 0xF8  && c <= 0x2AF) || // ø-ɏ (Latin Extended)
+    (c >= 0x370 && c <= 0x3FF) || // Greek
+    (c >= 0x400 && c <= 0x4FF) || // Cyrillic
+    (c >= 0x1E00 && c <= 0x1EFF)  // Latin Extended Additional (Welsh, Vietnamese etc)
+  );
+}
 
-<p>Ztratíte přístup k následujícím funkcím:</p>
-<ul>
-<li>Connected Routing – rychlejší a efektivnější plánování trasy.</li>
-<li>Remote Services – uzamčení nebo odemčení vozidla pomocí telefonu.</li>
-<li>Live Services – dopravní a meteorologické informace v reálném čase.</li>
-<li>Music Streaming* – poslech hudby bez připojení telefonu.</li>
-</ul>
+function findInText(text, name) {
+  // Skip very short names (< 3 chars) to avoid false positives
+  if (name.length < 3) return { count: 0, firstMatch: null };
+  const lower = text.toLowerCase();
+  const target = name.toLowerCase();
+  let count = 0, firstMatch = null, pos = 0;
+  while (true) {
+    const idx = lower.indexOf(target, pos);
+    if (idx === -1) break;
+    const b = text[idx - 1], a = text[idx + target.length];
+    if (!isLetter(b) && !isLetter(a)) {
+      count++;
+      if (!firstMatch) firstMatch = text.slice(idx, idx + target.length);
+    }
+    pos = idx + 1;
+  }
+  return { count, firstMatch };
+}
 
-<div class="divider" style="margin:16px 0;"></div>
+function detectMonths(text) {
+  // Group all found forms (nominative + genitive variants) by canonical lang + month index
+  const groups = {};
+  for (const [lang, months] of Object.entries(MONTHS)) {
+    const canon = LANG_CANONICAL[lang] || lang;
+    months.forEach((name, monthIndex) => {
+      const { count, firstMatch } = findInText(text, name);
+      if (count > 0) {
+        const key = monthIndex + '_' + canon;
+        if (!groups[key]) {
+          groups[key] = { allNames: [], canonLang: canon, lang: canon, monthIndex, count: 0, display: null };
+        }
+        groups[key].allNames.push(name);
+        groups[key].count += count;
+        if (!groups[key].display) groups[key].display = firstMatch;
+      }
+    });
+  }
+  return Object.values(groups);
+}
 
-<div class="h2">Zůstaňte připojeni ve třech jednoduchých krocích</div>
+let detectedMatches = [];
+let selections = [];
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+function analyse() {
+  const text = document.getElementById('input').value.trim();
+  selections = [];
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('no-detection').style.display = 'none';
+  document.getElementById('step3').style.display = 'none';
+  if (!text) return;
 
-<tr>
-<td class="card" style="padding:12px;">
-<table width="100%">
-<tr>
-<td width="42" valign="top"><div class="step-badge">1</div></td>
-<td>
-<p class="step-title">Aktualizujte aplikaci myHyundai</p>
-<p class="muted">Ujistěte se, že používáte nejnovější verzi aplikace <strong>myHyundai</strong>.</p>
+  detectedMatches = detectMonths(text);
 
-<table class="btnrow" cellpadding="0" cellspacing="0" border="0">
-<tr>
-<td style="padding-right:10px;">
-<a href="https://apps.apple.com/cz/app/myhyundai/id6741947307" target="_blank" rel="noopener">
-<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/005879fa-5bee-4d95-8fa3-2a8f93b00299.png"
-     alt="App Store" width="135" height="40"
-     style="width:135px;height:40px;display:block;">
-</a>
-</td>
-<td>
-<a href="https://play.google.com/store/apps/details?id=com.hyundai.oneapp.eu" target="_blank" rel="noopener">
-<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/c32da4e4-cfcc-417c-89c1-b68a7d361a4b.png"
-     alt="Google Play" width="135" height="40"
-     style="width:135px;height:40px;display:block;">
-</a>
-</td>
-</tr>
-</table>
+  if (!detectedMatches.length) {
+    document.getElementById('no-detection').style.display = 'block';
+    return;
+  }
 
-</td>
-</tr>
-</table>
-</td>
-</tr>
+  selections = detectedMatches.map(() => ({ targetLang: null, targetMonthIndex: null }));
+  renderPickers();
+  document.getElementById('step2').style.display = 'block';
+}
 
-<tr><td style="height:10px;"></td></tr>
+function renderPickers() {
+  const container = document.getElementById('pickers');
+  container.innerHTML = '';
+  detectedMatches.forEach((m, i) => {
+    const defaultLang = m.canonLang;
+    const langName = LANG_NAMES[m.lang] || m.lang;
+    const opts = LANG_OPTIONS.map(([code, label]) =>
+      `<option value="${code}"${code === defaultLang ? ' selected' : ''}>${label}</option>`
+    ).join('');
 
-<tr>
-<td class="card" style="padding:12px;">
-<table width="100%">
-<tr>
-<td width="42" valign="top"><div class="step-badge">2</div></td>
-<td>
-<p class="step-title">Otevřete Bluelink Store</p>
-<p class="muted">Otevřete aplikaci <strong>myHyundai</strong> a přejděte do <strong>Bluelink Store</strong>.</p>
-<img src="https://image.subscription.hyundai-europe.com/lib/fe3011737364047a721473/m/1/849cac7e-3d9f-4bbf-849b-beea3eda777b.png"
-     alt="Bluelink Store v aplikaci myHyundai"
-     style="max-width:180px;height:auto;border-radius:8px;border:1px solid #eef1f6;">
-</td>
-</tr>
-</table>
-</td>
-</tr>
+    const div = document.createElement('div');
+    div.className = 'month-picker';
+    div.innerHTML = `
+      <div class="picker-header">
+        <span class="picker-found">
+          Found: <strong>${m.display}</strong>
+          <span class="plang">${langName}</span>
+          <span class="pcount">${m.count} occurrence${m.count !== 1 ? 's' : ''}</span>
+        </span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--muted);">Replace in:</span>
+          <select class="lang-sel" id="langsel_${i}" onchange="onLangChange(${i})">${opts}</select>
+        </div>
+      </div>
+      <div class="month-grid" id="grid_${i}"></div>
+    `;
+    container.appendChild(div);
+    buildGrid(i, defaultLang);
+  });
+}
 
-<tr><td style="height:10px;"></td></tr>
+function buildGrid(pickerIndex, lang) {
+  const months = MONTHS[lang] || MONTHS['en'];
+  const isEn = lang === 'en';
+  const sel = selections[pickerIndex];
+  document.getElementById('grid_' + pickerIndex).innerHTML = months.map((m, i) =>
+    `<button class="month-btn${sel && sel.targetLang === lang && sel.targetMonthIndex === i ? ' selected' : ''}"
+      onclick="selectMonth(${pickerIndex},${i})">
+      ${m}${!isEn ? `<span class="en">${MONTHS['en'][i]}</span>` : ''}
+    </button>`
+  ).join('');
+}
 
-<tr>
-<td class="card" style="padding:12px;">
-<table width="100%">
-<tr>
-<td width="42" valign="top"><div class="step-badge">3</div></td>
-<td>
-<p class="step-title">Vyberte si předplatné</p>
-<p class="muted">
-Vyberte <strong>PRO</strong> nebo <strong>PLUS</strong>. Potvrzení obdržíte v aplikaci.
-Poplatky nebudou účtovány až do konce aktuálního období.
-Předplatné můžete kdykoli spravovat prostřednictvím nabídky ≡ v
-<strong>Bluelink Store</strong>.
-</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
+function onLangChange(i) {
+  const lang = document.getElementById('langsel_' + i).value;
+  selections[i] = { targetLang: lang, targetMonthIndex: null };
+  buildGrid(i, lang);
+}
 
-</table>
+function selectMonth(pickerIndex, monthIndex) {
+  const lang = document.getElementById('langsel_' + pickerIndex).value;
+  selections[pickerIndex] = { targetLang: lang, targetMonthIndex: monthIndex };
+  buildGrid(pickerIndex, lang);
+}
 
-<p style="margin-top:14px;">
-Pro nejlepší uživatelský zážitek doporučujeme udržovat navigační systém aktuální prostřednictvím
-<a href="https://update.hyundai.com/EU/E1/Main">Hyundai Update Portal</a>.
-</p>
+function doReplace() {
+  const missing = selections.findIndex(s => s.targetMonthIndex === null);
+  if (missing !== -1) {
+    alert('Please select a replacement month for all detected entries (entry ' + (missing + 1) + ' is unselected).');
+    return;
+  }
 
-<p>
-Pokud již vaše předplatné vypršelo, informace o obnovení naleznete
-<a href="https://www.hyundai.com/eu/en/driving-hyundai/owning-a-hyundai/bluelink-connectivity/bluelink-store-renewal.html">zde</a>.
-</p>
+  let text = document.getElementById('input').value;
+  detectedMatches.forEach((m, i) => {
+    const { targetLang, targetMonthIndex } = selections[i];
+    const replacement = MONTHS[targetLang][targetMonthIndex];
+    (m.allNames || [m.name]).forEach(name => {
+      text = replaceAll(text, name, replacement);
+    });
+  });
 
-<div class="divider" style="margin:16px 0;"></div>
+  document.getElementById('output').value = text;
+  document.getElementById('step3').style.display = 'block';
 
-<div class="h2">Jsme vám vždy k dispozici</div>
-<p>
-Více informací najdete na
-<a href="https://www.hyundai.com/cz/prodej/sluzby/pripojeni-bluelink.html">našich webových stránkách</a>
-nebo nás kontaktujte prostřednictvím
-<a href="https://connected-mobility.hyundai.com/ccs-contact-form">kontaktního formuláře Bluelink</a>.
-</p>
+  const lines = [], verifyEl = document.getElementById('verify-msg');
+  let allOk = true;
+  detectedMatches.forEach((m, i) => {
+    const { targetLang, targetMonthIndex } = selections[i];
+    const expected = MONTHS[targetLang][targetMonthIndex];
+    const { count } = findInText(text, expected);
+    if (count > 0) {
+      lines.push('✓ "' + expected + '" — ' + count + ' occurrence' + (count !== 1 ? 's' : ''));
+    } else {
+      lines.push('✗ "' + expected + '" not found — replacement may have failed');
+      allOk = false;
+    }
+  });
+  verifyEl.className = allOk ? 'verify-ok' : 'verify-fail';
+  verifyEl.innerHTML = lines.join('<br>');
+  verifyEl.style.display = 'block';
+  document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-<p>
-Děkujeme, že jste si vybrali <strong>Bluelink</strong> —
-pro chytřejší, bezpečnější a propojenější cestování.
-</p>
-<p><strong>Váš tým Bluelink</strong></p>
+function replaceAll(text, searchName, replacement) {
+  const lower = text.toLowerCase(), target = searchName.toLowerCase();
+  let result = '', pos = 0;
+  while (true) {
+    const idx = lower.indexOf(target, pos);
+    if (idx === -1) { result += text.slice(pos); break; }
+    const b = text[idx - 1], a = text[idx + target.length];
+    if (!isLetter(b) && !isLetter(a)) {
+      result += text.slice(pos, idx) + matchCase(text.slice(idx, idx + target.length), replacement);
+    } else {
+      result += text.slice(pos, idx + target.length);
+    }
+    pos = idx + target.length;
+  }
+  return result;
+}
 
-<p class="muted" style="font-size:11px;">
-* Dostupnost Music Streaming závisí na systému Connected Car Navigation Cockpit (ccNC) vašeho vozidla.
-</p>
+function matchCase(orig, rep) {
+  if (orig === orig.toUpperCase() && orig !== orig.toLowerCase()) return rep.toUpperCase();
+  if (orig[0] === orig[0].toUpperCase()) return rep[0].toUpperCase() + rep.slice(1);
+  return rep.toLowerCase();
+}
 
-</td>
-</tr>
-
-<tr><td style="background:#002c5f;height:3px;"></td></tr>
-
-</table>
-
-<table class="container" width="600" cellpadding="0" cellspacing="0">
-<tr>
-<td style="padding:18px;font-size:9px;color:#666;line-height:1.4;text-align:center;">
-© 2026 Hyundai Connected Mobility GmbH<br>
-Kaiserleipromenade 5, 63067 Offenbach, Německo<br>
-HRB 56445 – Daňové identifikační číslo DE364376196<br>
-Managing Director: Marcus Welz<br><br>
-<a href="https://www.hyundai.com/eu/en/bluelink-privacy-notice-en.html">Zásady ochrany osobních údajů</a> |
-<a href="https://www.hyundai.com/eu/en/bluelink-terms-of-use-en.html">Podmínky používání</a>
-</td>
-</tr>
-</table>
-
-</td>
-</tr>
-</table>
+function copyOutput() {
+  const ta = document.getElementById('output');
+  ta.select(); ta.setSelectionRange(0, 99999);
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  if (!ok && navigator.clipboard) navigator.clipboard.writeText(ta.value).catch(() => {});
+  window.getSelection && window.getSelection().removeAllRanges();
+  const b = document.getElementById('copy-ok');
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 2000);
+}
+</script>
 </body>
 </html>
